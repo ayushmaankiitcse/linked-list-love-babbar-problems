@@ -1,0 +1,70 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+
+using namespace std;
+/* Link list Node */
+struct Node {
+    int data;
+    Node *next;
+    Node *arb;
+
+    Node(int x) {
+        data = x;
+        next = NULL;
+        arb = NULL;
+    }
+};
+
+
+
+ // } Driver Code Ends
+class Solution
+{
+    private:
+    void insert(Node *&head,Node *&tail,int d)
+    {
+        Node *newnode=new Node(d);
+        if(head==NULL)
+        {
+            head=newnode;
+            tail=newnode;
+            return;
+        }
+        else
+        {
+            tail->next=newnode;
+            tail=newnode;
+        }
+    }
+    public:
+    Node *copyList(Node *head)
+    {
+        Node *clonehead=NULL;
+        Node *clonetail=NULL;
+        Node *temp=head;
+        while(temp!=NULL)
+        {
+            insert(clonehead,clonetail,temp->data);
+            temp=temp->next;
+        }
+        unordered_map<Node*,Node*>oldtonew;
+        temp=head;
+        Node *temp2=clonehead;
+        while(temp!=NULL && temp2!=NULL)
+        {
+            oldtonew[temp]=temp2;
+            temp=temp->next;
+            temp2=temp2->next;
+        }
+        temp=head;
+        temp2=clonehead;
+        while(temp!=NULL)
+        {
+            temp2->arb=oldtonew[temp->arb];
+            temp=temp->next;
+            temp2=temp2->next;
+        }
+        return clonehead;
+    }
+
+};
